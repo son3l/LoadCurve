@@ -34,12 +34,13 @@ public class SSHService
     {
         using SshCommand command = _Client.RunCommand("ps aux");
         List<ServerProcess> result = ParseProcesses(command.Result);
-        ServerLoadInfo info = new();
+        ServerLoadInfo info = new(){Processes = new()};
         foreach (var process in result)
         {
             info.TotalMemoryUsage += process.MemoryUsage;
             info.TotalCPUUsage += process.CPUUsage;
         }
+        info.TotalCPUUsage /= 4;
         info.Processes.AddRange(result);
         return info;
     }
@@ -51,17 +52,20 @@ public class SSHService
         splitCommandResult.RemoveAt(0);
         foreach (var processInfo in splitCommandResult)
         {
-            string[] processData = processInfo.Split(" ").Where(info=>!string.IsNullOrWhiteSpace(info)).ToArray();
-            Processes.Add(new ServerProcess()
+            if (processInfo != "")
             {
-                UserName = processData[0],
-                PID= processData[1],
-                CPUUsage = double.Parse(processData[2].Replace(".", ",")),
-                MemoryUsage = double.Parse(processData[3].Replace(".", ",")),
-                Status = processData[7],
-                CPUUsageTime = processData[9],
-                ProcessName = processData[10]      
-            });
+                string[] processData = processInfo.Split(" ").Where(info => !string.IsNullOrWhiteSpace(info)).ToArray();
+                Processes.Add(new ServerProcess()
+                {
+                    UserName = processData[0],
+                    PID = processData[1],
+                    CPUUsage = double.Parse(processData[2].Replace(".", ",")),
+                    MemoryUsage = double.Parse(processData[3].Replace(".", ",")),
+                    Status = processData[7],
+                    CPUUsageTime = processData[9],
+                    ProcessName = processData[10]
+                });
+            }
         }
         return Processes;
     }
