@@ -45,6 +45,11 @@ public class SSHService
         return info;
     }
 
+    public void CloseConnection()
+    {
+        _Client.Disconnect();
+    }
+
     private List<ServerProcess> ParseProcesses(string CommandResult)
     {
         List<ServerProcess> Processes = new();

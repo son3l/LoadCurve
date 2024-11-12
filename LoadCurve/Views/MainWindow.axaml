@@ -11,8 +11,11 @@
         Title="LoadCurve">
 <Interaction.Behaviors>
     <EventTriggerBehavior EventName="Loaded">
-        <InvokeCommandAction Command="{Binding ConnectCommand}"/>
+        <InvokeCommandAction Command="{Binding LoadedAppCommand}"/>
     </EventTriggerBehavior>
+	<EventTriggerBehavior EventName="Closing">
+		<InvokeCommandAction Command="{Binding ClosingAppCommand}"/>
+	</EventTriggerBehavior>
 </Interaction.Behaviors>
     <Design.DataContext>
          <vm:MainWindowViewModel/>
@@ -20,24 +23,24 @@
 <Grid RowDefinitions="4*,3*">
 	<Grid ColumnDefinitions="*,*" >
 	<lvc:CartesianChart Grid.Column="0" ZoomMode="None"
-						XAxes="{Binding XAxes}"
-						Series="{Binding Series }"
-						YAxes="{Binding YAxes}"
-                        DrawMarginFrame="{Binding Frame}"/>
+						XAxes="{Binding CPUXAxes}"
+						Series="{Binding CPUSeries }"
+						YAxes="{Binding CPUYAxes}"
+                        DrawMarginFrame="{Binding CPUFrame}"/>
 		<lvc:CartesianChart Grid.Column="1" ZoomMode="None"
-							XAxes="{Binding XAxes}"
-							Series="{Binding Series }"
-							YAxes="{Binding YAxes}"
-							DrawMarginFrame="{Binding Frame}"/>
+							XAxes="{Binding MemoryXAxes}"
+							Series="{Binding MemorySeries }"
+							YAxes="{Binding MemoryYAxes}"
+							DrawMarginFrame="{Binding MemoryFrame}"/>
 	</Grid>
 	<DataGrid 
+		IsReadOnly="True"
 		Grid.Row="1"
-		AutoGenerateColumns="False"
 		ItemsSource="{Binding Processes}">
 		<DataGrid.Columns>
 			<DataGridTextColumn Header="Процесс" Binding="{Binding ProcessName}"/>
 			<DataGridTextColumn Header="PID" Binding="{Binding PID}"/>
-			<DataGridTextColumn Header="ПОльзователь" Binding="{Binding UserName}"/>
+			<DataGridTextColumn Header="Пользователь" Binding="{Binding UserName}"/>
 			<DataGridTextColumn Header="Исп. ЦП" Binding="{Binding CPUUsage}"/>
 			<DataGridTextColumn Header="Исп. ОЗУ" Binding="{Binding MemoryUsage}"/>
 			<DataGridTextColumn Header="Статус" Binding="{Binding Status}"/>

@@ -25,32 +25,46 @@ public partial class MainWindowViewModel : ViewModelBase
     private static readonly SKColor s_gray2 = new(90, 90, 90);
     private static readonly SKColor s_dark3 = new(60, 60, 60);
     [ObservableProperty]
-    private ObservableCollection<ISeries> _Series;
+    private ObservableCollection<ISeries> _CPUSeries;
     [ObservableProperty]
-    private ObservableCollection<ICartesianAxis> _XAxes;
+    private ObservableCollection<ICartesianAxis> _CPUXAxes;
     [ObservableProperty]
-    private ObservableCollection<DateTimePoint> _Points;
+    private ObservableCollection<DateTimePoint> _CPUPoints;
     [ObservableProperty]
-    private ObservableCollection<ICartesianAxis> _YAxes;
+    private ObservableCollection<ICartesianAxis> _CPUYAxes;
     [ObservableProperty]
-    private DrawMarginFrame _Frame;
+    private DrawMarginFrame _CPUFrame;
+    [ObservableProperty]
+    private ObservableCollection<ISeries> _MemorySeries;
+    [ObservableProperty]
+    private ObservableCollection<ICartesianAxis> _MemoryXAxes;
+    [ObservableProperty]
+    private ObservableCollection<DateTimePoint> _MemoryPoints;
+    [ObservableProperty]
+    private ObservableCollection<ICartesianAxis> _MemoryYAxes;
+    [ObservableProperty]
+    private DrawMarginFrame _MemoryFrame;
     [ObservableProperty]
     private ObservableCollection<ServerProcess> _Processes;
     private SSHService _SSHService;
     public MainWindowViewModel()
     {
         _SSHService = new(new Server() { Address="91.230.211.118",Password="6bgH2j5hK88k",UserName="root"});
-        Points = new();
         Processes = [.._SSHService.GetServerLoadInfo().Processes];
+        ConfigureMemoryCurve();
+        ConfigureCPUCurve();
+    }
 
-        #region Настройка графика
-        Series = [new LineSeries<DateTimePoint>(Points)
+    private void ConfigureCPUCurve()
+    {
+        CPUPoints = new();
+        CPUSeries = [new LineSeries<DateTimePoint>(CPUPoints)
         {
             Stroke = new SolidColorPaint(new SKColor(33, 150, 243), 4),
             Fill = null,
             GeometrySize = 0
         }];
-        XAxes = [new DateTimeAxis(TimeSpan.FromSeconds(5), date => date.ToString("hh:mm:ss"))
+        CPUXAxes = [new DateTimeAxis(TimeSpan.FromSeconds(5), date => date.ToString("hh:mm:ss"))
         {
             Name="Время",
              NamePaint = new SolidColorPaint(s_gray1),
@@ -85,10 +99,10 @@ public partial class MainWindowViewModel : ViewModelBase
                 StrokeThickness = 1
             }
         }];
-        YAxes = [
+        CPUYAxes = [
         new Axis
         {
-            Name = "Загрука ЦП(%)",
+            Name = "Загрузка ЦП(%)",
             MaxLimit= 100,
             MinLimit=0,
             NamePaint = new SolidColorPaint(s_gray1),
@@ -124,7 +138,7 @@ public partial class MainWindowViewModel : ViewModelBase
             }
         }
     ];
-        Frame = new()
+        CPUFrame = new()
         {
             Fill = new SolidColorPaint(s_dark3),
             Stroke = new SolidColorPaint
@@ -133,21 +147,123 @@ public partial class MainWindowViewModel : ViewModelBase
                 StrokeThickness = 1
             }
         };
-        #endregion
+    }
+    private void ConfigureMemoryCurve()
+    {
+        MemoryPoints = new();
+        MemorySeries = [new LineSeries<DateTimePoint>(MemoryPoints)
+        {
+            Stroke = new SolidColorPaint(new SKColor(33, 150, 243), 4),
+            Fill = null,
+            GeometrySize = 0
+        }];
+        MemoryXAxes = [new DateTimeAxis(TimeSpan.FromSeconds(5), date => date.ToString("hh:mm:ss"))
+        {
+            Name="Время",
+             NamePaint = new SolidColorPaint(s_gray1),
+            TextSize = 18,
+            Padding = new Padding(5, 15, 5, 5),
+            LabelsPaint = new SolidColorPaint(s_gray),
+            SeparatorsPaint = new SolidColorPaint
+            {
+                Color = s_gray,
+                StrokeThickness = 1,
+                PathEffect = new DashEffect([3, 3])
+            },
+            SubseparatorsPaint = new SolidColorPaint
+            {
+                Color = s_gray2,
+                StrokeThickness = 0.5f
+            },
+            SubseparatorsCount = 9,
+            ZeroPaint = new SolidColorPaint
+            {
+                Color = s_gray1,
+                StrokeThickness = 2
+            },
+            TicksPaint = new SolidColorPaint
+            {
+                Color = s_gray,
+                StrokeThickness = 1.5f
+            },
+            SubticksPaint = new SolidColorPaint
+            {
+                Color = s_gray,
+                StrokeThickness = 1
+            }
+        }];
+        MemoryYAxes = [
+        new Axis
+        {
+            Name = "Загрузка ОЗУ(%)",
+            MaxLimit= 100,
+            MinLimit=0,
+            NamePaint = new SolidColorPaint(s_gray1),
+            TextSize = 18,
+            Padding = new Padding(5, 0, 15, 0),
+            LabelsPaint = new SolidColorPaint(s_gray),
+            SeparatorsPaint = new SolidColorPaint
+            {
+                Color = s_gray,
+                StrokeThickness = 1,
+                PathEffect = new DashEffect([3, 3])
+            },
+            SubseparatorsPaint = new SolidColorPaint
+            {
+                Color = s_gray2,
+                StrokeThickness = 0.5f
+            },
+            SubseparatorsCount = 9,
+            ZeroPaint = new SolidColorPaint
+            {
+                Color = s_gray1,
+                StrokeThickness = 2
+            },
+            TicksPaint = new SolidColorPaint
+            {
+                Color = s_gray,
+                StrokeThickness = 1.5f
+            },
+            SubticksPaint = new SolidColorPaint
+            {
+                Color = s_gray,
+                StrokeThickness = 1
+            }
+        }
+    ];
+        MemoryFrame = new()
+        {
+            Fill = new SolidColorPaint(s_dark3),
+            Stroke = new SolidColorPaint
+            {
+                Color = s_gray,
+                StrokeThickness = 1
+            }
+        };
     }
 
     [RelayCommand]
-    private void OnConnect()
+    private void OnClosingApp()
+    {
+     _SSHService.CloseConnection();   
+    }
+    [RelayCommand]
+    private void OnLoadedApp()
     {
         Dispatcher.UIThread.InvokeAsync( async() =>
         {
             while (true)
             {
                 ServerLoadInfo info = _SSHService.GetServerLoadInfo();
-                if (Points.Count >= 3600)
-                    Points.RemoveAt(0);
-                Points.Add(new DateTimePoint()
+                if (CPUPoints.Count >= 3600)
+                {
+                    CPUPoints.RemoveAt(0);
+                    MemoryPoints.RemoveAt(0);
+                }
+                CPUPoints.Add(new DateTimePoint()
                     { DateTime = DateTime.Now, Value = info.TotalCPUUsage });
+                MemoryPoints.Add(new DateTimePoint()
+                    { DateTime = DateTime.Now, Value = info.TotalMemoryUsage });
                 Processes = [.. info.Processes];
                 await Task.Delay(5000);
             }
