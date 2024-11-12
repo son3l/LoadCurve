@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="750"
         x:Class="LoadCurve.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
@@ -15,11 +15,34 @@
     </EventTriggerBehavior>
 </Interaction.Behaviors>
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
+         <vm:MainWindowViewModel/>
     </Design.DataContext>
-<Grid RowDefinitions="4*,*">
-    <lvc:CartesianChart ZoomMode="X" XAxes="{Binding XAxes}"  Series="{Binding Series }"/>
+<Grid RowDefinitions="4*,3*">
+	<Grid ColumnDefinitions="*,*" >
+	<lvc:CartesianChart Grid.Column="0" ZoomMode="None"
+						XAxes="{Binding XAxes}"
+						Series="{Binding Series }"
+						YAxes="{Binding YAxes}"
+                        DrawMarginFrame="{Binding Frame}"/>
+		<lvc:CartesianChart Grid.Column="1" ZoomMode="None"
+							XAxes="{Binding XAxes}"
+							Series="{Binding Series }"
+							YAxes="{Binding YAxes}"
+							DrawMarginFrame="{Binding Frame}"/>
+	</Grid>
+	<DataGrid 
+		Grid.Row="1"
+		AutoGenerateColumns="False"
+		ItemsSource="{Binding Processes}">
+		<DataGrid.Columns>
+			<DataGridTextColumn Header="Процесс" Binding="{Binding ProcessName}"/>
+			<DataGridTextColumn Header="PID" Binding="{Binding PID}"/>
+			<DataGridTextColumn Header="ПОльзователь" Binding="{Binding UserName}"/>
+			<DataGridTextColumn Header="Исп. ЦП" Binding="{Binding CPUUsage}"/>
+			<DataGridTextColumn Header="Исп. ОЗУ" Binding="{Binding MemoryUsage}"/>
+			<DataGridTextColumn Header="Статус" Binding="{Binding Status}"/>
+		</DataGrid.Columns>
+		
+	</DataGrid>
 </Grid>
 </Window>
