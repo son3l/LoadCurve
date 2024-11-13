@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -38,12 +39,15 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private void OnAddServer() 
     {
-        //TODO NEW WINDOW
+        AddNewServerWindow window = new();
+        AddNewServerWindowViewModel data = ((AddNewServerWindowViewModel)window.DataContext);
+        data.AddNewServerHandler += (server) => { Servers.Add(server); };
+        window.Show();
     }
     [RelayCommand]
     private void OnDeleteServer()
     {
-        //TODO CONFIRM WINDOW
+        Servers.Remove(SelectedServer);
     }
     [RelayCommand]
     private void OnChangeServer() 
@@ -55,11 +59,7 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private void OnClosing() 
     {
-        foreach (Server server in Servers)
-        {
-             _SavingService.SaveServer(server);
-        }
-       
+       _SavingService.SaveServer(Servers.ToList());
     }
     [RelayCommand]
     private void OnLoaded() 

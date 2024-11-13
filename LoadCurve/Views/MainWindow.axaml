@@ -25,6 +25,7 @@
 		<Menu Grid.Row="0">
 			<MenuItem Header="Настройки">
 				<MenuItem Header="Добавить виджет"/>
+				<MenuItem Header="Информация о сервере"/>
 				<MenuItem Header="Выход"/>
 			</MenuItem>
 		</Menu>

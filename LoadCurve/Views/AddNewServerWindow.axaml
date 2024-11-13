@@ -1,0 +1,48 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+		xmlns:vm="using:LoadCurve.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="340" d:DesignHeight="230"
+        Width="340" Height="230"
+		x:Class="LoadCurve.AddNewServerWindow"
+		x:DataType="vm:AddNewServerWindowViewModel"
+        Title="AddNewServerWindow"
+		CanResize="False">
+  <Window.DataContext>
+	  <vm:AddNewServerWindowViewModel/>
+</Window.DataContext>
+	<StackPanel Margin="15">
+		<StackPanel Margin="5" Orientation="Horizontal">
+			<TextBlock VerticalAlignment="Center" Text="Название: "/>
+			<TextBox Text="{Binding NewServer.Name, UpdateSourceTrigger=PropertyChanged}" Margin="37,0,0,0" VerticalAlignment="Center" Width="160"/>
+		</StackPanel>
+		<StackPanel Margin="5" Orientation="Horizontal">
+			<TextBlock VerticalAlignment="Center" Text="Адрес сервера: "/>
+			<TextBox Text="{Binding NewServer.Address, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="160"/>
+		</StackPanel>
+		<StackPanel Margin="5" Orientation="Horizontal">
+			<TextBlock VerticalAlignment="Center" Text="Пользователь: "/>
+			<TextBox Text="{Binding NewServer.UserName, UpdateSourceTrigger=PropertyChanged}" Margin="8,0,0,0" VerticalAlignment="Center" Width="160"/>
+		</StackPanel>
+		<StackPanel Margin="5" Orientation="Horizontal">
+			<TextBlock VerticalAlignment="Center" Text="Пароль: "/>
+			<TextBox Text="{Binding NewServer.Password, UpdateSourceTrigger=PropertyChanged}" Margin="53,0,0,0" VerticalAlignment="Center" Width="160"/>
+		</StackPanel>
+		<Grid ColumnDefinitions="*,*" Margin="5">
+			<Button Grid.Column="0" HorizontalAlignment="Center" Width="140" Command="{Binding ConnectCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+				<StackPanel Orientation="Horizontal">
+					<materialIcons:MaterialIcon Kind="Connection"/>
+					<TextBlock Margin="5,0,0,0" Text="Подключиться"/>
+				</StackPanel>
+			</Button>
+			<Button Grid.Column="1" HorizontalAlignment="Center" Width="140" Command="{Binding CancelCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+				<StackPanel Orientation="Horizontal">
+					<materialIcons:MaterialIcon Kind="Cancel"/>
+					<TextBlock Margin="5,0,0,0" Text="Отмена"/>
+				</StackPanel>
+			</Button>
+		</Grid>
+	</StackPanel>
+	</Window>
