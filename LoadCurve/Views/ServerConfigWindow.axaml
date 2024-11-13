@@ -1,0 +1,102 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:vm="using:LoadCurve.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="450"
+		Width="450" Height="450"
+        x:Class="LoadCurve.ServerConfigWindow"
+		x:DataType="vm:ServerConfigWindowViewModel"
+        Title="ServerConfigWindow">
+	<Window.DataContext>
+		<vm:ServerConfigWindowViewModel/>
+	</Window.DataContext>
+	<Interaction.Behaviors>
+		<EventTriggerBehavior EventName="Loaded">
+			<InvokeCommandAction Command="{Binding LoadedCommand}"/>
+		</EventTriggerBehavior>
+	</Interaction.Behaviors>
+	<ScrollViewer>
+	<StackPanel>
+		<Border Background="#111111" BorderBrush="#111111" BorderThickness="3" CornerRadius="10">
+			<StackPanel Margin="3">
+				<TextBlock Margin="5" Text="Процессор" FontSize="16" FontWeight="DemiBold"/>
+				<StackPanel Margin="2" Orientation="Horizontal">
+					<TextBlock Text="Модель: "/>
+					<TextBlock Text="{Binding Info.Processor.ModelName}"/>
+				</StackPanel>
+				<StackPanel Margin="2" Orientation="Horizontal">
+					<TextBlock Text="Архитектура: "/>
+					<TextBlock Text="{Binding Info.Processor.Architecture}"/>
+				</StackPanel>
+				<StackPanel Margin="2" Orientation="Horizontal">
+					<TextBlock Text="CPU: "/>
+					<TextBlock Text="{Binding Info.Processor.CPU}"/>
+				</StackPanel>
+				<StackPanel Margin="2" Orientation="Horizontal">
+					<TextBlock Text="Потоков на ядро: "/>
+					<TextBlock Text="{Binding Info.Processor.ThreadsPerCore}"/>
+				</StackPanel>
+				<StackPanel Margin="2" Orientation="Horizontal">
+					<TextBlock Text="Ядер на сокет: "/>
+					<TextBlock Text="{Binding Info.Processor.CorePerSocket}"/>
+				</StackPanel>
+				<StackPanel Margin="2" Orientation="Horizontal">
+					<TextBlock Text="сокетов: "/>
+					<TextBlock Text="{Binding Info.Processor.Sockets}"/>
+				</StackPanel>
+			</StackPanel>
+		</Border>
+		<Border Margin="0,5,0,0" Background="#111111" BorderBrush="#111111" BorderThickness="3" CornerRadius="10">
+			<StackPanel Margin="3">
+				<TextBlock Margin="5" Text="ОЗУ" FontSize="16" FontWeight="DemiBold"/>
+				<StackPanel Margin="2" Orientation="Horizontal">
+					<TextBlock Text="Общее количество ОЗУ: "/>
+					<TextBlock Text="{Binding Info.TotalMemory}"/>
+					<TextBlock Text=" Гб"/>
+				</StackPanel>
+			</StackPanel>
+		</Border>
+		<Border Margin="0,5,0,0" Background="#111111" BorderBrush="#111111" BorderThickness="3" CornerRadius="10">
+			<StackPanel Margin="3">
+				<TextBlock Margin="5" Text="Накопители" FontSize="16" FontWeight="DemiBold"/>
+				<Border BorderBrush="#2C2E30" BorderThickness="5" CornerRadius="10">
+					<ListBox Background="#2C2E30" ItemsSource="{Binding Info.Disks}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="Название: "/>
+									<TextBlock Text="{Binding Name}"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="Объем: "/>
+									<TextBlock Text="{Binding Size}"/>
+								</StackPanel>
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+					</ListBox>
+				</Border>
+			</StackPanel>
+		</Border>
+		<Border Margin="0,5,0,0" Background="#111111" BorderBrush="#111111" BorderThickness="3" CornerRadius="10">
+			<StackPanel Margin="3">
+				<TextBlock Margin="5" Text="Операционная система" FontSize="16" FontWeight="DemiBold"/>
+				<StackPanel Margin="2" Orientation="Horizontal">
+					<TextBlock Text="Дистрибутив: "/>
+					<TextBlock Text="{Binding Info.OS.Distributor}"/>
+				</StackPanel>
+				<StackPanel Margin="2" Orientation="Horizontal">
+					<TextBlock Text="Версия: "/>
+					<TextBlock Text="{Binding Info.OS.Release}"/>
+				</StackPanel>
+				<StackPanel Margin="2" Orientation="Horizontal">
+					<TextBlock Text="Кодовое название: "/>
+					<TextBlock Text="{Binding Info.OS.CodeName}"/>
+				</StackPanel>
+			</StackPanel>
+		</Border>
+	</StackPanel>
+	</ScrollViewer>
+</Window>

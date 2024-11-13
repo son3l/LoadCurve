@@ -69,6 +69,9 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private void OnOpenConfigWindow()
     {
-        new SSHService(SelectedServer).GetServerConfig();
+        ServerConfigWindow window = new();
+        ServerConfigWindowViewModel data = (ServerConfigWindowViewModel)window.DataContext;
+        data.Server = SelectedServer;
+        window.Show();
     }
 }

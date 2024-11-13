@@ -21,6 +21,10 @@ public class SSHService
         ServerLoadInfo = new();
         GetPowerStats();
     }
+    public SSHService()
+    {
+        
+    }
     private void GetPowerStats()
     {
         using SshCommand NPROCcommand = _Client.RunCommand("nproc");
@@ -40,17 +44,22 @@ public class SSHService
             throw new Exception($"Failed to connect to the SSH server: {e.Message}");
         }
     }
-    public ServerConfigInfo GetServerConfig()
+    public  ServerConfigInfo GetServerConfig(Server server)
     {
+        SshClient client = new(new ConnectionInfo(server.Address, server.UserName,
+            new PasswordAuthenticationMethod(server.UserName, server.Password)));
+        client.Connect();
         ServerConfigInfo config = new();
-        using SshCommand CPUcommand = _Client.RunCommand("lscpu");
+        using SshCommand CPUcommand = client.RunCommand("lscpu");
         config.Processor = ParseProcessorInfo(CPUcommand.Result);
-        using SshCommand Memorycommand = _Client.RunCommand("free -h");
+        using SshCommand Memorycommand = client.RunCommand("free -h");
         config.TotalMemory = ParseMemoryInfo(Memorycommand.Result);
-        using SshCommand Diskcommand = _Client.RunCommand("df -h");
+        using SshCommand Diskcommand = client.RunCommand("df -h");
         config.Disks = [.. ParseDisks(Diskcommand.Result)];
-        using SshCommand OScommand = _Client.RunCommand("lsb_release -a");
+        using SshCommand OScommand = client.RunCommand("lsb_release -a");
         config.OS = ParseOS(OScommand.Result);
+        client.Disconnect();
+        client.Dispose();
         return config;
     }
 
