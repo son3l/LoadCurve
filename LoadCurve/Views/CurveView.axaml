@@ -1,0 +1,61 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:LoadCurve.ViewModels"
+			 xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="LoadCurve.CurveView"
+			 x:DataType="vm:CurveViewModel">
+	<UserControl.DataContext>
+		<vm:CurveViewModel/>
+	</UserControl.DataContext>
+	<Interaction.Behaviors>
+		<EventTriggerBehavior EventName="Loaded">
+			<InvokeCommandAction Command="{Binding LoadedAppCommand}"/>
+		</EventTriggerBehavior>
+		<EventTriggerBehavior EventName="DetachedFromVisualTree">
+			<InvokeCommandAction Command="{Binding ClosingAppCommand}"/>
+		</EventTriggerBehavior>
+	</Interaction.Behaviors>
+	<Grid RowDefinitions="4*,3*">
+		<Grid ColumnDefinitions="*,*" >
+			<lvc:CartesianChart Grid.Column="0" ZoomMode="None"
+								XAxes="{Binding CPUXAxes}"
+								Series="{Binding CPUSeries }"
+								YAxes="{Binding CPUYAxes}"
+								DrawMarginFrame="{Binding CPUFrame}"/>
+			<lvc:CartesianChart Grid.Column="1" ZoomMode="None"
+								XAxes="{Binding MemoryXAxes}"
+								Series="{Binding MemorySeries}"
+								YAxes="{Binding MemoryYAxes}"
+								DrawMarginFrame="{Binding MemoryFrame}"/>
+		</Grid>
+		<ScrollViewer Grid.Row="1" ZIndex="1">
+			<StackPanel>
+			<Grid Margin="0,5,0,5" ColumnDefinitions="2*,*,*,*,*,*">
+				<TextBlock Grid.Column="0" HorizontalAlignment="Center" Text="Процесс"/>
+				<TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="PID"/>
+				<TextBlock Grid.Column="2" HorizontalAlignment="Center" Text="Пользователь "/>
+				<TextBlock Grid.Column="3" HorizontalAlignment="Center" Text="Исп. ЦП(%)"/>
+				<TextBlock Grid.Column="4" HorizontalAlignment="Center" Text="Исп. ОЗУ(%)"/>
+				<TextBlock Grid.Column="5" HorizontalAlignment="Center" Text="Статус"/>
+			</Grid>
+			<ListBox ItemsSource="{Binding Processes}">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<Grid ColumnDefinitions="2*,*,*,*,*,*">
+							<TextBlock Grid.Column="0" HorizontalAlignment="Center" Text="{Binding ProcessName}"/>
+							<TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding PID}"/>
+							<TextBlock Grid.Column="2" HorizontalAlignment="Center" Text="{Binding UserName}"/>
+							<TextBlock Grid.Column="3" HorizontalAlignment="Center" Text="{Binding CPUUsage}"/>
+							<TextBlock Grid.Column="4" HorizontalAlignment="Center" Text="{Binding MemoryUsage}"/>
+							<TextBlock Grid.Column="5" HorizontalAlignment="Center" Text="{Binding Status}"/>
+						</Grid>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+			</StackPanel>
+		</ScrollViewer>
+	</Grid>
+</UserControl>

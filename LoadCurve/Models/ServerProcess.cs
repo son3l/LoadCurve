@@ -11,4 +11,5 @@ public class ServerProcess
     public string ProcessName { get; set; }
     public string Status { get; set; }
     public string CPUUsageTime { get; set; }
+    public double ResidentMemoryUsage { get; set; }
 }

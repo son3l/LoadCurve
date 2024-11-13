@@ -1,11 +1,13 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="LoadCurve.App"
-             RequestedThemeVariant="Default">
+             RequestedThemeVariant="Dark"
+			 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia" >
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
   
     <Application.Styles>
 		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
         <FluentTheme />
+		<materialIcons:MaterialIconStyles />
     </Application.Styles>
 </Application>

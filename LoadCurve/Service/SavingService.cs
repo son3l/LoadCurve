@@ -11,7 +11,7 @@ public class SavingService
  public List<Server> LoadServers()
  {
   string CacheDirectory = Path.Combine(Environment.CurrentDirectory,"cache");
-  if (Directory.Exists(CacheDirectory)) return null;
+  if (!Directory.Exists(CacheDirectory)) return [];
   List<string> files = [..Directory.GetFiles(CacheDirectory)];
   List<Server> Servers = new();
   foreach (var file in files)
