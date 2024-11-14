@@ -47,6 +47,11 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private void OnDeleteServer()
     {
+        if (SelectedServer is null)
+        {
+            new MessageWindow("Нет выбранного сервера", "Ошибка").Show();
+            return;
+        }
         Servers.Remove(SelectedServer);
     }
     [RelayCommand]
@@ -69,6 +74,11 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private void OnOpenConfigWindow()
     {
+        if (SelectedServer is null)
+        {
+            new MessageWindow("Нет выбранного сервера", "Ошибка").Show();
+            return;
+        }
         ServerConfigWindow window = new();
         ServerConfigWindowViewModel data = (ServerConfigWindowViewModel)window.DataContext;
         data.Server = SelectedServer;
@@ -82,6 +92,11 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private void OnAddWidget()
     {
+        if (SelectedServer is null)
+        {
+            new MessageWindow("Нет выбранного сервера","Ошибка").Show();
+            return;
+        }
         if (App.WidgetWindow is not null)
         {
             WidgetWindowViewModel data =((WidgetWindowViewModel)App.WidgetWindow.DataContext);

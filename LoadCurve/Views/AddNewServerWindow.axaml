@@ -20,7 +20,7 @@
 		</StackPanel>
 		<StackPanel Margin="5" Orientation="Horizontal">
 			<TextBlock VerticalAlignment="Center" Text="Адрес сервера: "/>
-			<TextBox Text="{Binding NewServer.Address, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="160"/>
+			<MaskedTextBox Text="{Binding NewServer.Address, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="160" LetterSpacing=" " Mask="999\.999\.999\.999"/>
 		</StackPanel>
 		<StackPanel Margin="5" Orientation="Horizontal">
 			<TextBlock VerticalAlignment="Center" Text="Пользователь: "/>
@@ -28,7 +28,7 @@
 		</StackPanel>
 		<StackPanel Margin="5" Orientation="Horizontal">
 			<TextBlock VerticalAlignment="Center" Text="Пароль: "/>
-			<TextBox Text="{Binding NewServer.Password, UpdateSourceTrigger=PropertyChanged}" Margin="53,0,0,0" VerticalAlignment="Center" Width="160"/>
+			<TextBox PasswordChar="*" Text="{Binding NewServer.Password, UpdateSourceTrigger=PropertyChanged}" Margin="53,0,0,0" VerticalAlignment="Center" Width="160"/>
 		</StackPanel>
 		<Grid ColumnDefinitions="*,*" Margin="5">
 			<Button Grid.Column="0" HorizontalAlignment="Center" Width="140" Command="{Binding ConnectCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">

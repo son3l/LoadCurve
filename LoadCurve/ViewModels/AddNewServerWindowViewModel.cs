@@ -23,7 +23,8 @@ namespace LoadCurve.ViewModels
         [RelayCommand]
         private void OnConnect(Window window)
         {
-            AddNewServerHandler.Invoke(NewServer);
+            string Address = new string(NewServer.Address.Where(symbol=>symbol=='.'||char.IsDigit(symbol)).ToArray());
+            AddNewServerHandler.Invoke(new Server { Address=Address,Name=NewServer.Name,UserName=NewServer.UserName,Password=NewServer.Password });
             window.Close();
         }
         [RelayCommand]
