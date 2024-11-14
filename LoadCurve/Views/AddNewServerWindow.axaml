@@ -8,7 +8,7 @@
         Width="340" Height="230"
 		x:Class="LoadCurve.AddNewServerWindow"
 		x:DataType="vm:AddNewServerWindowViewModel"
-        Title="AddNewServerWindow"
+        Title="Добавить"
 		CanResize="False">
   <Window.DataContext>
 	  <vm:AddNewServerWindowViewModel/>

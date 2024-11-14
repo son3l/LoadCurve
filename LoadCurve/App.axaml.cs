@@ -47,7 +47,10 @@ public partial class App : Application
     }
     private void CloseWidgetClick(object? sender, System.EventArgs e)
     {
-        WidgetWindow.Close();
-        WidgetWindow = null;
+        if (WidgetWindow is not null)
+        {
+            WidgetWindow.Close();
+            WidgetWindow = null;
+        }
     }
 }

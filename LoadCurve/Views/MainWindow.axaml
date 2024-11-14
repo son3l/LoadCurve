@@ -9,7 +9,7 @@
         x:Class="LoadCurve.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/wave-graph.ico"
-        Title="LoadCurve">
+        Title="Графики нагрузки">
 	<Interaction.Behaviors>
 		<EventTriggerBehavior EventName="Closing">
 			<InvokeCommandAction Command="{Binding ClosingCommand}"/>
