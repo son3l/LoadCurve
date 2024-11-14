@@ -74,4 +74,44 @@ public partial class MainWindowViewModel : ViewModelBase
         data.Server = SelectedServer;
         window.Show();
     }
+    [RelayCommand]
+    private void OnExit()
+    {
+        Environment.Exit(0);
+    }
+    [RelayCommand]
+    private void OnAddWidget()
+    {
+        if (App.WidgetWindow is not null)
+        {
+            WidgetWindowViewModel data =((WidgetWindowViewModel)App.WidgetWindow.DataContext);
+            data.CPUPoints.Clear();
+            data.MemoryPoints.Clear();
+            foreach (var point in ((CurveViewModel)CurrentView.DataContext).CPUPoints)
+            {
+                data.CPUPoints.Add(point);
+            }
+            foreach (var point in ((CurveViewModel)CurrentView.DataContext).MemoryPoints)
+            {
+                data.MemoryPoints.Add(point);
+            }
+            data.CurrentServer = ((CurveViewModel)CurrentView.DataContext).CurrentServer;
+            data.SSHService = new(data.CurrentServer);
+        }
+        else
+        {
+            WidgetWindow window = new();
+            foreach (var point in ((CurveViewModel)CurrentView.DataContext).CPUPoints)
+            {
+                ((WidgetWindowViewModel)window.DataContext).CPUPoints.Add(point);
+            }
+            foreach (var point in ((CurveViewModel)CurrentView.DataContext).MemoryPoints)
+            {
+                ((WidgetWindowViewModel)window.DataContext).MemoryPoints.Add(point);
+            }
+            ((WidgetWindowViewModel)window.DataContext).CurrentServer = ((CurveViewModel)CurrentView.DataContext).CurrentServer;
+            window.Show();
+            App.WidgetWindow = window;
+        }
+    }
 }

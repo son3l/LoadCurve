@@ -7,6 +7,7 @@
 		Width="450" Height="450"
         x:Class="LoadCurve.ServerConfigWindow"
 		x:DataType="vm:ServerConfigWindowViewModel"
+		Icon="/Assets/wave-graph.ico"
         Title="ServerConfigWindow">
 	<Window.DataContext>
 		<vm:ServerConfigWindowViewModel/>

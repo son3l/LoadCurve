@@ -6,6 +6,7 @@
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <ApplicationIcon>Assets\wave-graph.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,6 +14,12 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="Assets\wave-graph.ico" />
+    </ItemGroup>
+
+    <ItemGroup>
+		<AvaloniaResource Include="Assets/avalonia-logo.ico" />
+		<Content Include="Assets\wave-graph.ico" />
         <PackageReference Include="Avalonia" Version="11.1.0" />
         <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.1.0" />
         <PackageReference Include="Avalonia.Desktop" Version="11.1.0" />

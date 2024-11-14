@@ -1,0 +1,38 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
+		xmlns:vm="using:LoadCurve.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="400"
+		Width="250" Height="400"
+        x:Class="LoadCurve.WidgetWindow"
+		x:DataType="vm:WidgetWindowViewModel"
+        Title="WidgetWindow"
+		WindowStartupLocation="Manual"
+		Topmost="True"
+		ShowInTaskbar="False">
+	<Window.DataContext>
+		<vm:WidgetWindowViewModel/>
+	</Window.DataContext>
+	<Interaction.Behaviors>
+		<EventTriggerBehavior EventName="Loaded">
+			<InvokeCommandAction Command="{Binding LoadedAppCommand}"/>
+		</EventTriggerBehavior>
+		<EventTriggerBehavior EventName="DetachedFromVisualTree">
+			<InvokeCommandAction Command="{Binding ClosingAppCommand}"/>
+		</EventTriggerBehavior>
+	</Interaction.Behaviors>
+	<Grid RowDefinitions="*,*" >
+		<lvc:CartesianChart Grid.Row="0" ZoomMode="None"
+							XAxes="{Binding CPUXAxes}"
+							Series="{Binding CPUSeries }"
+							YAxes="{Binding CPUYAxes}"
+							DrawMarginFrame="{Binding CPUFrame}"/>
+		<lvc:CartesianChart Grid.Row="1" ZoomMode="None"
+							XAxes="{Binding MemoryXAxes}"
+							Series="{Binding MemorySeries}"
+							YAxes="{Binding MemoryYAxes}"
+							DrawMarginFrame="{Binding MemoryFrame}"/>
+	</Grid>
+</Window>

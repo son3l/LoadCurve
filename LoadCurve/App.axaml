@@ -4,7 +4,24 @@
              RequestedThemeVariant="Dark"
 			 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia" >
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
-  
+	<TrayIcon.Icons>
+		<TrayIcons>
+			<TrayIcon Icon="/Assets/wave-graph.ico"
+					  ToolTipText="Load Curve">
+				<TrayIcon.Menu>
+					<NativeMenu>
+						<NativeMenuItem Header="Настройки">
+							<NativeMenu>
+								<NativeMenuItem Header="Открыть главное окно" Click="OpenMainWindowClick"/>
+								<NativeMenuItem Header="Закрыть приложение" Click="CloseAppClick"/>
+								<NativeMenuItem Header="Убрать виджет" Click="CloseWidgetClick"/>
+							</NativeMenu>
+						</NativeMenuItem>
+					</NativeMenu>
+				</TrayIcon.Menu>
+			</TrayIcon>
+		</TrayIcons>
+	</TrayIcon.Icons>
     <Application.Styles>
 		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
         <FluentTheme />
